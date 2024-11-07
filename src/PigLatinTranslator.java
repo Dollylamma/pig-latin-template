@@ -32,7 +32,7 @@ public class PigLatinTranslator
     // Replace this code to correctly translate a single word.
     // Start here first!
     String result = input;
-    
+    boolean isVowel=false;
     return result;
   }
 
