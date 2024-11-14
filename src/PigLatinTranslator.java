@@ -27,13 +27,44 @@ public class PigLatinTranslator
 
   private static String translateWord(String input)
   {
+    if(input.length()<1){
+      return input;
+    }
     // System.out.println("translateWord: '" + input + "'");
 
     // Replace this code to correctly translate a single word.
     // Start here first!
-    String result = input;
-    boolean isVowel=false;
+    String result="";
+    String regex = "[,\\.\\s]";
+    String[] myArray = input.split(regex);
+    for (String s : myArray) {
+      String addToBack="";
+	    for(int i=0; i<s.length(); i++){
+        String firstLetter=s.substring(i, i+1);
+        if(firstLetter.equals("a") || firstLetter.equals("e") || firstLetter.equals("i") || firstLetter.equals("o") || firstLetter.equals("u")){
+          break;
+        } else{
+          addToBack+=firstLetter;
+        }
+      }
+      result+=s.substring(addToBack.length())+s.substring(0, addToBack.length())+"ay";
+    }
     return result;
+    // String result = input;
+    // if(result.length()<1){
+    //   return input;
+    // }
+    // boolean isVowel=false;
+    // String firstLetter = input.substring(0, 1);
+    // if(firstLetter.equals("a") || firstLetter.equals("e") || firstLetter.equals("i") || firstLetter.equals("o") || firstLetter.equals("u")){
+    //   isVowel=true;
+    // }
+    // if(isVowel){
+    //   result=input+"ay";
+    // } else{
+    //   result = input.substring(1)+ input.substring(0, 1)+"ay";
+    // }
+    // return result;
   }
 
   // Add additonal private methods here.
