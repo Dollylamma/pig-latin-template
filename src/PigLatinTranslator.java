@@ -31,11 +31,19 @@ public class PigLatinTranslator
       return input;
     }
     // System.out.println("translateWord: '" + input + "'");
-
+    boolean[] wordOrNot= new boolean[input.length()];
+    String letter="abcdefghijklmnopqrstuvwxyz";
+    for(int i=0; i<input.length(); i++){
+      if(letter.indexOf(input.substring(i, i+1))!=-1){
+        wordOrNot[i]=true;
+      } else{
+        wordOrNot[i]=false;
+      }
+    }
     // Replace this code to correctly translate a single word.
     // Start here first!
     String result="";
-    String regex = "[,\\.\\s]";
+    String regex = "[,\\.\\s\\-]";
     String[] myArray = input.split(regex);
     for (String s : myArray) {
       String addToBack="";
