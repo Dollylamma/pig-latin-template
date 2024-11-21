@@ -27,35 +27,20 @@ public class PigLatinTranslator
 
   private static String translateWord(String input)
   {
-    if(input.length()<1){
-      return input;
-    }
-    // System.out.println("translateWord: '" + input + "'");
-    boolean[] wordOrNot= new boolean[input.length()];
-    String letter="abcdefghijklmnopqrstuvwxyz";
-    for(int i=0; i<input.length(); i++){
-      if(letter.indexOf(input.substring(i, i+1))!=-1){
-        wordOrNot[i]=true;
-      } else{
-        wordOrNot[i]=false;
-      }
-    }
-    // Replace this code to correctly translate a single word.
-    // Start here first!
+    String letters = "abcdefghijklmnopqrstuvwxyz";
     String result="";
-    String regex = "[,\\.\\s\\-]";
-    String[] myArray = input.split(regex);
-    for (String s : myArray) {
-      String addToBack="";
-	    for(int i=0; i<s.length(); i++){
-        String firstLetter=s.substring(i, i+1);
-        if(firstLetter.equals("a") || firstLetter.equals("e") || firstLetter.equals("i") || firstLetter.equals("o") || firstLetter.equals("u")){
-          break;
-        } else{
-          addToBack+=firstLetter;
-        }
+    boolean[] isLetter = new boolean[input.length()];
+    for (int index=0; index<input.length(); index++){
+      char letter = input.charAt(index);
+      if(letters.indexOf(letter)!=-1){
+        isLetter[index]=true;
+      } else {
+        isLetter[index]=false;
       }
-      result+=s.substring(addToBack.length())+s.substring(0, addToBack.length())+"ay";
+    }
+    boolean onChar=false;
+    for(int index=0; index<input.length(); index++){
+
     }
     return result;
     // String result = input;
