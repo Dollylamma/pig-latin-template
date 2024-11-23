@@ -75,6 +75,7 @@ public class Book
         // https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html
         this.title = title;
 
+        // input.readFromUrl("Romeo and Juliette", "https://www.gutenberg.org/cache/epub/1513/pg1513.txt")
         try {
             URL bookUrl = new URL(url);
             Scanner scanner = new Scanner(bookUrl.openStream());
@@ -92,5 +93,14 @@ public class Book
     void writeToFile()
     {
         // Add code here to write the contents of the book to a file.
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(title + ".txt", true))){
+            for(int i=0; i<text.size(); i++){
+                writer.write(text.get(i));
+                writer.newLine();
+            }
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 }

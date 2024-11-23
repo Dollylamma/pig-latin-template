@@ -6,6 +6,13 @@ public class PigLatinTranslator
   {
     Book translatedBook = new Book();
 
+    String title = input.getTitle();
+    title= translate(title);
+    translatedBook.setTitle(title);
+    for(int i=0; i<input.getLineCount(); i++){
+      String line = input.getLine(i);
+      translatedBook.appendLine(translate(line));
+    }
     // Add code here to populate translatedBook with a translation of the input book.
     // Curent do-nothing code will return an empty book.
 
@@ -88,11 +95,7 @@ public class PigLatinTranslator
         index+=nonWordCnt-1;
       }
     }
-    if(onChar){
-      result+=translateSingleSection(currWord);
-    } else{
-      result+=currWord;
-    }
+    result+=translateSingleSection(currWord);
     return result;
     // String result = input;
     // if(result.length()<1){
@@ -115,8 +118,10 @@ public class PigLatinTranslator
     String result = "";
     if(input.length()<1){
       return input;
+    } else if (input.length()==1){
+      return input+"ay";
     }
-    String vowel="aeiouAEIOU";
+    String vowel="aeiouyAEIOUY";
     String upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int backLen=0;
     boolean firstUpper=false;
@@ -129,8 +134,10 @@ public class PigLatinTranslator
       } else{
         if(firstUpper){
           result = (input.substring(backLen, backLen+1)).toUpperCase() + input.substring(backLen+1)+(input.substring(0, backLen)).toLowerCase()+ "ay";
+          break;
         } else{
           result = (input.substring(backLen, backLen+1)) + input.substring(backLen+1)+(input.substring(0, backLen)).toLowerCase()+ "ay";
+          break;
         }
       }
     }
