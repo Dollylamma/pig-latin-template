@@ -27,20 +27,71 @@ public class PigLatinTranslator
 
   private static String translateWord(String input)
   {
-    String letters = "abcdefghijklmnopqrstuvwxyz";
+    String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String result="";
+    int letterCnt=0;
     boolean[] isLetter = new boolean[input.length()];
     for (int index=0; index<input.length(); index++){
-      char letter = input.charAt(index);
-      if(letters.indexOf(letter)!=-1){
-        isLetter[index]=true;
-      } else {
+      // char letter = input.charAt(index);
+      if(letters.indexOf(input.substring(index, index+1))==-1){
         isLetter[index]=false;
+      } else {
+        isLetter[index]=true;
+        letterCnt++;
       }
     }
-    boolean onChar=false;
+    if(letterCnt==0){
+      return input;
+    }
+    // for(int i=0; i<input.length(); i++){
+    //   System.out.print(isLetter[i]);
+    // }
+    if(input.length()<1){
+      return input;
+    }
+    boolean onChar=isLetter[0];
+    String currWord="";
+    int nonWordCnt=0;
+    int startindex=0;
     for(int index=0; index<input.length(); index++){
-
+      // if(onChar){
+      //   if(!isLetter[index]){
+      //     result+=translateSingleSection(currWord);
+      //     onChar=false;
+      //     currWord="";
+      //     currWord+=input.substring(index, index+1);
+      //   } else{
+      //     currWord+=input.substring(index, index+1);
+      //   }
+      // } else {
+      //   result+=translateSingleSection(currWord);
+      //   startindex=index;
+      //   nonWordCnt=0;
+      //   while(!isLetter[index+nonWordCnt]){
+      //     nonWordCnt++;
+      //   }
+      //   result+=input.substring(startindex, startindex+nonWordCnt);
+      //   index+=nonWordCnt-1;
+      //   onChar=true;
+      // }
+      if(isLetter[index]){
+        currWord+=input.substring(index, index+1);
+      } else {
+        result+=translateSingleSection(currWord);
+        currWord="";
+        startindex=index;
+        nonWordCnt=0;
+        while(index+nonWordCnt<input.length() && !isLetter[index+nonWordCnt]){
+          nonWordCnt++;
+        }
+        result+=input.substring(startindex, startindex+nonWordCnt);
+        index+=nonWordCnt-1;
+      }
+    }
+    if(onChar){
+      result+=translateSingleSection(currWord);
+    } else{
+      result+=currWord;
     }
     return result;
     // String result = input;
@@ -58,6 +109,32 @@ public class PigLatinTranslator
     //   result = input.substring(1)+ input.substring(0, 1)+"ay";
     // }
     // return result;
+  }
+
+  private static String translateSingleSection (String input){
+    String result = "";
+    if(input.length()<1){
+      return input;
+    }
+    String vowel="aeiouAEIOU";
+    String upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int backLen=0;
+    boolean firstUpper=false;
+    if(upper.indexOf(input.substring(0, 1))!=-1){
+      firstUpper=true;
+    }
+    for(int i=0; i<input.length(); i++){
+      if(vowel.indexOf(input.substring(i, i+1))==-1){
+        backLen++;
+      } else{
+        if(firstUpper){
+          result = (input.substring(backLen, backLen+1)).toUpperCase() + input.substring(backLen+1)+(input.substring(0, backLen)).toLowerCase()+ "ay";
+        } else{
+          result = (input.substring(backLen, backLen+1)) + input.substring(backLen+1)+(input.substring(0, backLen)).toLowerCase()+ "ay";
+        }
+      }
+    }
+    return result;
   }
 
   // Add additonal private methods here.
